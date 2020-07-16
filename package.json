@@ -1,7 +1,11 @@
 {
   "name": "md-editor",
   "version": "0.1.0",
+  "author": "Taku",
+  "description": "Markdown app",
   "private": true,
+  "homepage": "./",
+  "main": "public/electron.js",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -10,8 +14,12 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "brace": "^0.11.1",
+    "marked": "^1.1.0",
     "react": "^16.13.1",
+    "react-ace": "^9.0.0",
     "react-dom": "^16.13.1",
+    "react-latex": "^1.6.0",
     "react-scripts": "3.4.1",
     "typescript": "~3.7.2"
   },
@@ -19,7 +27,40 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "package:mac": "webpack && electron-builder --mac --x64",
+    "package:windows": "webpack && electron-builder --win --x64",
+    "package:linux": "webpack && electron-builder --linux --x64"
+  },
+  "build": {
+    "productName": "Markdown Editor",
+    "directories": {
+      "output": "./build"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": "msi"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,5 +76,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/marked": "^0.7.4",
+    "concurrently": "^5.2.0",
+    "electron": "^9.0.2",
+    "electron-builder": "^22.7.0",
+    "electron-is-dev": "^1.2.0",
+    "wait-on": "^5.0.0"
   }
 }
